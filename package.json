@@ -1,0 +1,33 @@
+{
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview"
+	},
+	"dependencies": {
+		"@eslint/js": "^9.33.0",
+		"@fastify/vite": "^8.2.0",
+		"@trpc/client": "^11.5.0",
+		"@trpc/server": "^11.5.0",
+		"arktype": "^2.1.20",
+		"cors": "^2.8.5",
+		"fastify": "^5.5.0",
+		"preact": "^10.26.9",
+		"preact-iso": "^2.10.0",
+		"typescript-eslint": "^8.40.0"
+	},
+	"devDependencies": {
+		"@preact/preset-vite": "^2.10.2",
+		"@types/cors": "^2.8.19",
+		"eslint": "^9.33.0",
+		"eslint-config-preact": "^2.0.0",
+		"prettier": "3.6.2",
+		"typescript": "^5.9.2",
+		"vite": "^7.0.4"
+	},
+	"eslintConfig": {
+		"extends": "preact"
+	}
+}
