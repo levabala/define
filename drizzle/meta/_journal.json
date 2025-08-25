@@ -1,0 +1,62 @@
+{
+    "version": "7",
+    "dialect": "sqlite",
+    "entries": [
+        {
+            "idx": 0,
+            "version": "6",
+            "when": 1755879304913,
+            "tag": "0000_illegal_infant_terrible",
+            "breakpoints": true
+        },
+        {
+            "idx": 1,
+            "version": "6",
+            "when": 1755879718578,
+            "tag": "0001_flashy_ben_urich",
+            "breakpoints": true
+        },
+        {
+            "idx": 2,
+            "version": "6",
+            "when": 1755879920052,
+            "tag": "0002_whole_celestials",
+            "breakpoints": true
+        },
+        {
+            "idx": 3,
+            "version": "6",
+            "when": 1755880090075,
+            "tag": "0003_charming_havok",
+            "breakpoints": true
+        },
+        {
+            "idx": 4,
+            "version": "6",
+            "when": 1756141274877,
+            "tag": "0004_last_lorna_dane",
+            "breakpoints": true
+        },
+        {
+            "idx": 5,
+            "version": "6",
+            "when": 1756154072734,
+            "tag": "0005_curvy_doctor_faustus",
+            "breakpoints": true
+        },
+        {
+            "idx": 6,
+            "version": "6",
+            "when": 1756154270114,
+            "tag": "0006_outstanding_gorgon",
+            "breakpoints": true
+        },
+        {
+            "idx": 7,
+            "version": "6",
+            "when": 1756155592323,
+            "tag": "0007_useful_menace",
+            "breakpoints": true
+        }
+    ]
+}

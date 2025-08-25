@@ -1,0 +1,42 @@
+{
+    "version": "6",
+    "dialect": "sqlite",
+    "id": "9c9cefc0-ed93-45c7-ab90-e01fb3613268",
+    "prevId": "9b21f776-c77f-4f12-a709-528b5454bac4",
+    "tables": {
+        "users_table": {
+            "name": "users_table",
+            "columns": {
+                "username": {
+                    "name": "username",
+                    "type": "text",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "age": {
+                    "name": "age",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": false,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {},
+            "checkConstraints": {}
+        }
+    },
+    "views": {},
+    "enums": {},
+    "_meta": {
+        "schemas": {},
+        "tables": {},
+        "columns": {}
+    },
+    "internal": {
+        "indexes": {}
+    }
+}

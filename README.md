@@ -8,9 +8,17 @@
 
 ## Getting Started
 
--   `bun run dev` - Starts a dev server at http://localhost:5173/
+- `bun run dev` - Starts a dev server at http://localhost:5173/
 
--   `bun run build` - Builds for production, emitting to `dist/`
+- `bun run build` - Builds for production, emitting to `dist/`
 
--   `bun run preview` - Starts a server at http://localhost:4173/ to test production build locally
+- `bun run preview` - Starts a server at http://localhost:4173/ to test production build locally
+
 # define
+
+## How to apply migrations
+
+```bash
+bunx drizzle-kit generate
+bun run src/server/migrate.ts
+```

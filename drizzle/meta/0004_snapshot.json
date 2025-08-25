@@ -1,0 +1,84 @@
+{
+    "version": "6",
+    "dialect": "sqlite",
+    "id": "ffe203fc-3152-451d-b2fa-1df0584831fe",
+    "prevId": "7cc3c28e-d684-4524-986a-590a9ec02b2e",
+    "tables": {
+        "users": {
+            "name": "users",
+            "columns": {
+                "username": {
+                    "name": "username",
+                    "type": "text",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "codeword": {
+                    "name": "codeword",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {},
+            "checkConstraints": {}
+        },
+        "words": {
+            "name": "words",
+            "columns": {
+                "value": {
+                    "name": "value",
+                    "type": "text",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "username": {
+                    "name": "username",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false,
+                    "autoincrement": false
+                },
+                "isDeleted": {
+                    "name": "isDeleted",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": false,
+                    "autoincrement": false,
+                    "default": 0
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "words_username_users_username_fk": {
+                    "name": "words_username_users_username_fk",
+                    "tableFrom": "words",
+                    "tableTo": "users",
+                    "columnsFrom": ["username"],
+                    "columnsTo": ["username"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {},
+            "checkConstraints": {}
+        }
+    },
+    "views": {},
+    "enums": {},
+    "_meta": {
+        "schemas": {},
+        "tables": {},
+        "columns": {}
+    },
+    "internal": {
+        "indexes": {}
+    }
+}

@@ -1,0 +1,105 @@
+{
+    "version": "6",
+    "dialect": "sqlite",
+    "id": "82ec88a8-7f23-444e-9f38-41a2fa524b8e",
+    "prevId": "c5531798-8242-431f-814c-a20f23ba7b62",
+    "tables": {
+        "users": {
+            "name": "users",
+            "columns": {
+                "username": {
+                    "name": "username",
+                    "type": "text",
+                    "primaryKey": true,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "codeword": {
+                    "name": "codeword",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {},
+            "checkConstraints": {}
+        },
+        "words": {
+            "name": "words",
+            "columns": {
+                "value": {
+                    "name": "value",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "username": {
+                    "name": "username",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false
+                },
+                "isDeleted": {
+                    "name": "isDeleted",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": 0
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": "(datetime('now'))"
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "autoincrement": false,
+                    "default": "(datetime('now'))"
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "words_username_users_username_fk": {
+                    "name": "words_username_users_username_fk",
+                    "tableFrom": "words",
+                    "tableTo": "users",
+                    "columnsFrom": ["username"],
+                    "columnsTo": ["username"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {
+                "words_value_username_pk": {
+                    "columns": ["value", "username"],
+                    "name": "words_value_username_pk"
+                }
+            },
+            "uniqueConstraints": {},
+            "checkConstraints": {}
+        }
+    },
+    "views": {},
+    "enums": {},
+    "_meta": {
+        "schemas": {},
+        "tables": {},
+        "columns": {}
+    },
+    "internal": {
+        "indexes": {}
+    }
+}
