@@ -1,115 +1,111 @@
-import { effect, signal } from '@preact/signals';
+import { useState, useEffect, FormEvent } from 'react';
 import { omit } from 'remeda';
 import { processWord } from '../../helpers';
 import { trpc } from '../../trpc/client';
-import { WordType } from '@/server/schema';
-import { useEffect } from 'preact/hooks';
+import { WordType } from '../../server/schema';
 
-function createUserState() {
-    const username = signal('');
+export function Main() {
+    const [username, setUsername] = useState('');
+    const [words, setWords] = useState<Record<string, WordType>>({});
 
-    return { username };
-}
-
-const userState = createUserState();
-
-function createDictionaryState() {
-    const words = signal<Record<string, WordType>>({});
-
-    async function fetchWords() {
+    const fetchWords = async () => {
         const res = await trpc.getWordsAll.query({
-            username: userState.username.value,
+            username: username,
         });
+        console.log({ res });
 
-        words.value = res.reduce(
+        const wordsMap = res.reduce(
             (acc, word) => {
                 acc[word.value] = word;
-
                 return acc;
             },
             {} as Record<string, WordType>,
         );
-    }
 
-    function addWord(
+        setWords(wordsMap);
+    };
+
+    const addWord = (
         word: Omit<
             WordType,
             'username' | 'isDeleted' | 'createdAt' | 'updatedAt'
         >,
-    ) {
-        words.value = {
-            ...words.value,
-            [word.value]: {
-                value: processWord(word.value),
-                username: userState.username.value,
-                isDeleted: 0,
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString(),
-            },
+    ) => {
+        const newWord = {
+            value: processWord(word.value),
+            username: username,
+            isDeleted: 0,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
         };
 
+        setWords((prev) => ({
+            ...prev,
+            [word.value]: newWord,
+        }));
+
         trpc.addWord.mutate({
-            username: userState.username.value,
+            username: username,
             word: word.value,
         });
-    }
+    };
 
-    function removeWord(wordValue: string) {
-        words.value = omit(words.value, [wordValue]);
-    }
+    const removeWord = (wordValue: string) => {
+        setWords((prev) => omit(prev, [wordValue]));
+    };
 
-    function updateWord(word: WordType) {
-        words.value = { ...words.value, [word.value]: word };
-    }
+    const updateWord = (word: WordType) => {
+        setWords((prev) => ({ ...prev, [word.value]: word }));
+    };
 
-    effect(() => {
-        console.log(words.value);
-    });
-
-    return { words, addWord, removeWord, updateWord, fetchWords };
-}
-
-const dictionaryState = createDictionaryState();
-
-export function Main() {
     useEffect(() => {
-        dictionaryState.fetchWords();
-    }, []);
+        console.log(words);
+    }, [words]);
+
+    useEffect(() => {
+        fetchWords();
+    }, [username]);
 
     return (
-        <div class="flex h-screen flex-col p-2">
-            <div class="flex flex-row-reverse">
+        <div className="flex h-screen flex-col p-2">
+            <div className="flex flex-row-reverse">
                 <form action="/logout" method="post">
-                    <button type="submit" class="p-1 bg-blue-500 text-white">
+                    <button
+                        type="submit"
+                        className="p-1 bg-blue-500 text-white"
+                    >
                         logout
                     </button>
                 </form>
             </div>
-            <hr class="my-2" />
-            <div class="grow overflow-auto">
-                <div class="flex flex-col gap-2">
-                    {Object.values(dictionaryState.words.value)
+            <hr className="my-2" />
+            <div className="grow overflow-auto">
+                <div className="flex flex-col gap-2">
+                    {Object.values(words)
                         .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1))
                         .map((word) => (
-                            <div class="flex flex-row gap-2">
+                            <div
+                                key={word.value}
+                                className="flex flex-row gap-2"
+                            >
                                 <button
                                     type="button"
-                                    class="p-1 bg-red-950 text-white"
+                                    className="p-1 bg-red-950 text-white"
                                     onClick={() => {
-                                        dictionaryState.removeWord(word.value);
+                                        removeWord(word.value);
                                     }}
                                 >
                                     delete
                                 </button>
-                                <div class="grow">{word.value}</div>
+                                <div className="grow">{word.value}</div>
                             </div>
                         ))}
                 </div>
             </div>
-            <hr class="my-2" />
+            <hr className="my-2" />
             <form
-                class="flex flex-row gap-2"
-                onSubmit={(e) => {
+                className="flex flex-row gap-2"
+                onSubmit={(e: FormEvent<HTMLFormElement>) => {
                     e.preventDefault();
                     const formData = new FormData(e.currentTarget);
 
@@ -120,7 +116,7 @@ export function Main() {
                         return;
                     }
 
-                    dictionaryState.addWord({
+                    addWord({
                         value: word.toString(),
                     });
 
@@ -131,11 +127,11 @@ export function Main() {
                     name="word"
                     type="text"
                     placeholder="add a word"
-                    class="border-solid border-1 border-gray-200 p-1 w-full"
+                    className="border-solid border-1 border-gray-200 p-1 w-full"
                 />
                 <button
                     type="submit"
-                    class="p-1 bg-blue-500 text-white min-w-16"
+                    className="p-1 bg-blue-500 text-white min-w-16"
                 >
                     add
                 </button>

@@ -1,5 +1,5 @@
-import { render } from 'preact';
-import { LocationProvider, Router, Route } from 'preact-iso';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route } from 'react-router';
 
 import { Main } from './pages/Main/index.js';
 import { NotFound } from './pages/_404.jsx';
@@ -8,16 +8,17 @@ import { Login } from './pages/Login/index.js';
 
 export function App() {
     return (
-        <LocationProvider>
+        <BrowserRouter>
             <main>
-                <Router>
-                    <Route path="/" component={Main} />
-                    <Route path="/login" component={Login} />
-                    <Route default component={NotFound} />
-                </Router>
+                <Routes>
+                    <Route index element={<Main />} />
+                    <Route path="login" element={<Login />} />
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
             </main>
-        </LocationProvider>
+        </BrowserRouter>
     );
 }
 
-render(<App />, document.getElementById('app')!);
+const root = createRoot(document.getElementById('app')!);
+root.render(<App />);
