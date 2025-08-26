@@ -64,8 +64,15 @@ const addWordAtom = atom(
     },
 );
 
-const removeWordAtom = atom(null, (_get, set, wordValue: string) => {
+const removeWordAtom = atom(null, (get, set, wordValue: string) => {
+    const username = get(usernameAtom);
+
     set(wordsAtom, (prev) => omit(prev, [wordValue]));
+
+    trpc.deleteWord.mutate({
+        username: username,
+        word: wordValue,
+    });
 });
 
 const sortedWordsAtom = atom((get) => {

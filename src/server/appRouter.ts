@@ -13,7 +13,12 @@ export const appRouter = t.router({
             return await db
                 .select()
                 .from(wordsTable)
-                .where(eq(wordsTable.username, username));
+                .where(
+                    and(
+                        eq(wordsTable.username, username),
+                        eq(wordsTable.isDeleted, 0),
+                    ),
+                );
         }),
     getWord: t.procedure
         .input(type({ word: 'string' }))
