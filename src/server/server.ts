@@ -14,17 +14,18 @@ import { usersTable } from './schema';
 import { db } from './db';
 import { eq } from 'drizzle-orm';
 import { type } from 'arktype';
+import { COOKIE_NAME_USERNAME } from '@/consts';
 
 const server = fastify({
     maxParamLength: 5000,
 });
 
-const AUTH_COOKIE_NAME = 'token';
+const COOKIE_NAME_AUTH = 'token';
 
 await server.register(fastifyJwt, {
     secret: process.env.JWT_SECRET!,
     cookie: {
-        cookieName: AUTH_COOKIE_NAME,
+        cookieName: COOKIE_NAME_AUTH,
         signed: false,
     },
 });
@@ -62,12 +63,19 @@ server.post('/login', async (request, reply) => {
         username,
     };
 
-    const token = server.jwt.sign(payload);
+    const payloadSigned = server.jwt.sign(payload);
 
     return reply
-        .setCookie(AUTH_COOKIE_NAME, token, {
+        .setCookie(COOKIE_NAME_AUTH, payloadSigned, {
             secure: process.env.NODE_ENV === 'production',
             httpOnly: true,
+            sameSite: 'strict',
+            path: '/',
+            maxAge: 60 * 60 * 24 * 30,
+        })
+        .setCookie(COOKIE_NAME_USERNAME, username, {
+            secure: process.env.NODE_ENV === 'production',
+            httpOnly: false,
             sameSite: 'strict',
             path: '/',
             maxAge: 60 * 60 * 24 * 30,
@@ -76,7 +84,7 @@ server.post('/login', async (request, reply) => {
 });
 
 server.post('/logout', async (_request, reply) => {
-    return reply.clearCookie(AUTH_COOKIE_NAME).status(303).redirect('/login');
+    return reply.clearCookie(COOKIE_NAME_AUTH).status(303).redirect('/login');
 });
 
 server.register(fastifyTRPCPlugin, {

@@ -9,7 +9,9 @@ const root = resolve(import.meta.dirname);
 export default defineConfig({
     root,
     plugins: [viteFastify(), react(), tailwindcss()],
-    alias: {
-        '@': resolve(import.meta.dirname, './src'),
+    resolve: {
+        alias: {
+            '@': resolve(import.meta.dirname, './src'),
+        },
     },
 });

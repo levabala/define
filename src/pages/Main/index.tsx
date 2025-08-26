@@ -1,36 +1,48 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useEffect, FormEvent } from 'react';
 import { omit } from 'remeda';
+import { atom, useAtom, useSetAtom } from 'jotai';
 import { processWord } from '../../helpers';
 import { trpc } from '../../trpc/client';
-import { WordType } from '../../server/schema';
+import { WordType } from '@/server/schema';
+import { COOKIE_NAME_USERNAME } from '@/consts';
+import Cookies from 'js-cookie';
 
-export function Main() {
-    const [username, setUsername] = useState('');
-    const [words, setWords] = useState<Record<string, WordType>>({});
+const usernameAtom = atom(Cookies.get(COOKIE_NAME_USERNAME) || '');
+const wordsAtom = atom<Record<string, WordType>>({});
 
-    const fetchWords = async () => {
-        const res = await trpc.getWordsAll.query({
-            username: username,
-        });
-        console.log({ res });
+const fetchWordsAtom = atom(null, async (get, set) => {
+    const username = get(usernameAtom);
+    console.log({ username });
+    if (!username) return;
 
-        const wordsMap = res.reduce(
-            (acc, word) => {
-                acc[word.value] = word;
-                return acc;
-            },
-            {} as Record<string, WordType>,
-        );
+    const res = await trpc.getWordsAll.query({
+        username: username,
+    });
+    console.log({ res });
 
-        setWords(wordsMap);
-    };
+    const wordsMap = res.reduce(
+        (acc, word) => {
+            acc[word.value] = word;
+            return acc;
+        },
+        {} as Record<string, WordType>,
+    );
 
-    const addWord = (
+    set(wordsAtom, wordsMap);
+});
+
+const addWordAtom = atom(
+    null,
+    (
+        get,
+        set,
         word: Omit<
             WordType,
             'username' | 'isDeleted' | 'createdAt' | 'updatedAt'
         >,
     ) => {
+        const username = get(usernameAtom);
+
         const newWord = {
             value: processWord(word.value),
             username: username,
@@ -39,7 +51,7 @@ export function Main() {
             updatedAt: new Date().toISOString(),
         };
 
-        setWords((prev) => ({
+        set(wordsAtom, (prev) => ({
             ...prev,
             [word.value]: newWord,
         }));
@@ -48,15 +60,28 @@ export function Main() {
             username: username,
             word: word.value,
         });
-    };
+    },
+);
 
-    const removeWord = (wordValue: string) => {
-        setWords((prev) => omit(prev, [wordValue]));
-    };
+const removeWordAtom = atom(null, (_get, set, wordValue: string) => {
+    set(wordsAtom, (prev) => omit(prev, [wordValue]));
+});
 
-    const updateWord = (word: WordType) => {
-        setWords((prev) => ({ ...prev, [word.value]: word }));
-    };
+const sortedWordsAtom = atom((get) => {
+    const words = get(wordsAtom);
+    return Object.values(words).sort((a, b) =>
+        a.createdAt > b.createdAt ? 1 : -1,
+    );
+});
+
+export function Main() {
+    const [username] = useAtom(usernameAtom);
+    const [words] = useAtom(wordsAtom);
+    const sortedWords = useAtom(sortedWordsAtom)[0];
+
+    const fetchWords = useSetAtom(fetchWordsAtom);
+    const addWord = useSetAtom(addWordAtom);
+    const removeWord = useSetAtom(removeWordAtom);
 
     useEffect(() => {
         console.log(words);
@@ -64,7 +89,7 @@ export function Main() {
 
     useEffect(() => {
         fetchWords();
-    }, [username]);
+    }, [username, fetchWords]);
 
     return (
         <div className="flex h-screen flex-col p-2">
@@ -81,25 +106,20 @@ export function Main() {
             <hr className="my-2" />
             <div className="grow overflow-auto">
                 <div className="flex flex-col gap-2">
-                    {Object.values(words)
-                        .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1))
-                        .map((word) => (
-                            <div
-                                key={word.value}
-                                className="flex flex-row gap-2"
+                    {sortedWords.map((word) => (
+                        <div key={word.value} className="flex flex-row gap-2">
+                            <button
+                                type="button"
+                                className="p-1 bg-red-950 text-white"
+                                onClick={() => {
+                                    removeWord(word.value);
+                                }}
                             >
-                                <button
-                                    type="button"
-                                    className="p-1 bg-red-950 text-white"
-                                    onClick={() => {
-                                        removeWord(word.value);
-                                    }}
-                                >
-                                    delete
-                                </button>
-                                <div className="grow">{word.value}</div>
-                            </div>
-                        ))}
+                                delete
+                            </button>
+                            <div className="grow">{word.value}</div>
+                        </div>
+                    ))}
                 </div>
             </div>
             <hr className="my-2" />
