@@ -1,8 +1,8 @@
+import viteFastify from '@fastify/vite/plugin';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@vitejs/plugin-react';
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
-import viteFastify from '@fastify/vite/plugin';
-import react from '@vitejs/plugin-react';
-import tailwindcss from '@tailwindcss/vite';
 
 const root = resolve(import.meta.dirname);
 

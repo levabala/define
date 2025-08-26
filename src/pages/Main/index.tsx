@@ -1,11 +1,12 @@
-import { useEffect, FormEvent } from 'react';
-import { omit } from 'remeda';
+import { Button } from '@/components/ui/button';
+import { COOKIE_NAME_USERNAME } from '@/consts';
+import { WordType } from '@/server/schema';
 import { atom, useAtom, useSetAtom } from 'jotai';
+import Cookies from 'js-cookie';
+import { FormEvent, useEffect } from 'react';
+import { omit } from 'remeda';
 import { processWord } from '../../helpers';
 import { trpc } from '../../trpc/client';
-import { WordType } from '@/server/schema';
-import { COOKIE_NAME_USERNAME } from '@/consts';
-import Cookies from 'js-cookie';
 
 const usernameAtom = atom(Cookies.get(COOKIE_NAME_USERNAME) || '');
 const wordsAtom = atom<Record<string, WordType>>({});
@@ -95,12 +96,9 @@ export function Main() {
         <div className="flex h-screen flex-col p-2">
             <div className="flex flex-row-reverse">
                 <form action="/logout" method="post">
-                    <button
-                        type="submit"
-                        className="p-1 bg-blue-500 text-white"
-                    >
+                    <Button type="submit" variant="default" size="sm">
                         logout
-                    </button>
+                    </Button>
                 </form>
             </div>
             <hr className="my-2" />
@@ -108,15 +106,16 @@ export function Main() {
                 <div className="flex flex-col gap-2">
                     {sortedWords.map((word) => (
                         <div key={word.value} className="flex flex-row gap-2">
-                            <button
+                            <Button
                                 type="button"
-                                className="p-1 bg-red-950 text-white"
+                                variant="destructive"
+                                size="sm"
                                 onClick={() => {
                                     removeWord(word.value);
                                 }}
                             >
                                 delete
-                            </button>
+                            </Button>
                             <div className="grow">{word.value}</div>
                         </div>
                     ))}
@@ -149,12 +148,9 @@ export function Main() {
                     placeholder="add a word"
                     className="border-solid border-1 border-gray-200 p-1 w-full"
                 />
-                <button
-                    type="submit"
-                    className="p-1 bg-blue-500 text-white min-w-16"
-                >
+                <Button type="submit" variant="default" size="sm">
                     add
-                </button>
+                </Button>
             </form>
         </div>
     );

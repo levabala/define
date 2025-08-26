@@ -5,6 +5,7 @@
 const config = {
     tabWidth: 4,
     singleQuote: true,
+    plugins: ['prettier-plugin-organize-imports'],
 };
 
 export default config;

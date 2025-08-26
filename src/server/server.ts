@@ -1,20 +1,20 @@
+import { COOKIE_NAME_USERNAME } from '@/consts';
+import fastifyCookie from '@fastify/cookie';
+import fastifyFormBody from '@fastify/formbody';
+import fastifyJwt from '@fastify/jwt';
+import fastifyVite from '@fastify/vite';
 import {
     fastifyTRPCPlugin,
     FastifyTRPCPluginOptions,
 } from '@trpc/server/adapters/fastify';
-import fastify from 'fastify';
-import fastifyVite from '@fastify/vite';
-import fastifyJwt from '@fastify/jwt';
-import fastifyCookie from '@fastify/cookie';
-import fastifyFormBody from '@fastify/formbody';
-import { createContext } from './context';
-import { appRouter, type AppRouter } from './appRouter';
-import { resolve } from 'node:path';
-import { usersTable } from './schema';
-import { db } from './db';
-import { eq } from 'drizzle-orm';
 import { type } from 'arktype';
-import { COOKIE_NAME_USERNAME } from '@/consts';
+import { eq } from 'drizzle-orm';
+import fastify from 'fastify';
+import { resolve } from 'node:path';
+import { appRouter, type AppRouter } from './appRouter';
+import { createContext } from './context';
+import { db } from './db';
+import { usersTable } from './schema';
 
 const server = fastify({
     maxParamLength: 5000,

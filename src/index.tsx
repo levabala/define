@@ -1,22 +1,25 @@
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router';
+import { BrowserRouter, Route, Routes } from 'react-router';
 
-import { Main } from './pages/Main/index.js';
-import { NotFound } from './pages/_404.jsx';
+import { Login } from './pages/Login/index';
+import { Main } from './pages/Main/index';
+import { NotFound } from './pages/_404';
 import './style.css';
-import { Login } from './pages/Login/index.js';
+import { ThemeProvider } from './theme-provider';
 
 export function App() {
     return (
-        <BrowserRouter>
-            <main>
-                <Routes>
-                    <Route index element={<Main />} />
-                    <Route path="login" element={<Login />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
-            </main>
-        </BrowserRouter>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <BrowserRouter>
+                <main>
+                    <Routes>
+                        <Route index element={<Main />} />
+                        <Route path="login" element={<Login />} />
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                </main>
+            </BrowserRouter>
+        </ThemeProvider>
     );
 }
 
