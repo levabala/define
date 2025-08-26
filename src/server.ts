@@ -33,13 +33,14 @@ await server.register(fastifyJwt, {
 await server.register(fastifyCookie);
 await server.register(fastifyFormBody);
 
-const rootPath = resolve(import.meta.dirname, '../..');
+const rootPath = resolve(import.meta.dirname, '../');
 console.log(rootPath);
 
 await server.register(fastifyVite, {
     root: rootPath, // where to look for vite.config.js
     dev: process.argv.includes('--dev'),
     spa: true,
+    logLevel: 'debug',
 });
 
 const PayloadType = type({
@@ -92,7 +93,13 @@ server.register(fastifyTRPCPlugin, {
     trpcOptions: {
         router: appRouter,
         createContext: async (opts) => {
-            await opts.req.jwtVerify();
+            try {
+                await opts.req.jwtVerify();
+            } catch (err) {
+                opts.res.code(401).send('Unauthorized');
+                return null;
+            }
+
             return createContext(opts);
         },
         onError({ path, error }) {
@@ -107,8 +114,9 @@ server.get('/*', (_req, reply) => {
 
 try {
     await server.vite.ready();
-    await server.listen({ port: 3000 });
+    await server.listen({ port: 3000, host: '0.0.0.0' });
 } catch (err) {
+    console.error(err);
     server.log.error(err);
     process.exit(1);
 }

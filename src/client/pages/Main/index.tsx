@@ -1,12 +1,12 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/client/components/ui/button';
 import { COOKIE_NAME_USERNAME } from '@/consts';
-import { WordType } from '@/server/schema';
+import { WordType } from '@/schema';
 import { atom, useAtom, useSetAtom } from 'jotai';
 import Cookies from 'js-cookie';
 import { FormEvent, useEffect } from 'react';
 import { omit } from 'remeda';
-import { processWord } from '../../helpers';
-import { trpc } from '../../trpc/client';
+import { processWord } from '../../../helpers';
+import { trpc } from '@/client/trpc/client';
 
 const usernameAtom = atom(Cookies.get(COOKIE_NAME_USERNAME) || '');
 const wordsAtom = atom<Record<string, WordType>>({});
@@ -100,7 +100,7 @@ export function Main() {
     }, [username, fetchWords]);
 
     return (
-        <div className="flex h-screen flex-col p-2">
+        <div className="flex h-full flex-col">
             <div className="flex flex-row-reverse">
                 <form action="/logout" method="post">
                     <Button type="submit" variant="default" size="sm">

@@ -1,12 +1,15 @@
 import { initTRPC } from '@trpc/server';
 import { type } from 'arktype';
 import { and, eq, sql } from 'drizzle-orm';
-import { processWord } from '../helpers';
+import { processWord } from './helpers';
 import { db } from './db';
 import { wordsTable } from './schema';
 
 export const t = initTRPC.create();
 export const appRouter = t.router({
+    ping: t.procedure.mutation(() => {
+        return 'pong';
+    }),
     getWordsAll: t.procedure
         .input(type({ username: 'string' }))
         .query(async ({ input: { username } }) => {
