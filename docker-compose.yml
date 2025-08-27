@@ -1,0 +1,21 @@
+services:
+    define:
+        image: ghcr.io/levabala/define:latest
+        container_name: define
+        restart: unless-stopped
+        environment:
+            - DB_FILE_NAME=${DB_FILE_NAME}
+            - JWT_SECRET=${JWT_SECRET}
+            - DB_ROOT_DIR=/app/data
+        volumes:
+            - define-data:/app/data
+        networks:
+            - nginx-network
+
+volumes:
+    define-data:
+
+networks:
+    nginx-network:
+        external: true
+        name: my-server-nginx_default
