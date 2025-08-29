@@ -19,6 +19,16 @@
 - **API**: tRPC for client-server communication
 - **Commits**: Always check last 10 commit messages with `git log --oneline -10` to match existing style
 
+## Deployment Process
+
+When the user asks to "deploy":
+
+1. **Commit changes**: `git commit -m "message"`
+2. **Version bump**: `npm version patch` (creates git tag automatically)
+3. **Push with tags**: `git push --follow-tags`
+
+Execute these commands **sequentially** - wait for each to complete before running the next.
+
 ## Key Dependencies
 
 - React 19, TypeScript, Vite, Tailwind CSS, Drizzle ORM, tRPC, Jotai, Fastify, Bun runtime
