@@ -5,12 +5,17 @@ import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
-const root = resolve(import.meta.dirname, 'src/client');
+const root = resolve(import.meta.dirname, 'src', 'client');
+const outDir = resolve(import.meta.dirname, 'dist');
 
 export default defineConfig({
     root,
+    build: {
+        outDir,
+        emptyOutDir: true,
+    },
     plugins: [
-        viteFastify(),
+        viteFastify({ spa: true, useRelativePaths: true }),
         VitePWA({
             registerType: 'autoUpdate',
             devOptions: {

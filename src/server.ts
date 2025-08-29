@@ -33,11 +33,12 @@ await server.register(fastifyJwt, {
 await server.register(fastifyCookie);
 await server.register(fastifyFormBody);
 
-const rootPath = resolve(import.meta.dirname, '../');
-console.log(rootPath);
+const rootPath = resolve(import.meta.dirname, '..');
+const distDir = resolve(import.meta.dirname, '..', 'dist');
 
 await server.register(fastifyVite, {
     root: rootPath, // where to look for vite.config.js
+    distDir: distDir,
     dev: process.argv.includes('--dev'),
     spa: true,
     logLevel: 'debug',

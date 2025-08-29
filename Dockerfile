@@ -6,7 +6,11 @@ COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
 # Copy source code
-COPY . .
+COPY src src
+COPY public public
+COPY favicon.ico favicon.ico
+COPY tsconfig.json tsconfig.json
+COPY vite.config.ts vite.config.ts
 
 # Build the application
 RUN bun run build
@@ -22,4 +26,6 @@ ENV NODE_ENV=production
 ENV DB_ROOT_DIR=/app/data
 
 # Start the application
+# CMD ["cat", "/app/client/dist/vite.config.json"]
+# CMD ["ls", "-Rlh", "--ignore=node_modules"]
 CMD ["bun", "-b", "run", "src/server.ts"]
