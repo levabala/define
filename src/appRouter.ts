@@ -1,11 +1,26 @@
 import { initTRPC } from '@trpc/server';
 import { type } from 'arktype';
 import { and, eq, sql } from 'drizzle-orm';
-import { processWord } from './helpers';
 import { db } from './db';
+import { processWord } from './helpers';
 import { wordsTable } from './schema';
 
-export const t = initTRPC.create();
+export const t = initTRPC.create({
+    errorFormatter({ shape, error }) {
+        // Log full error server-side for debugging
+        console.error('tRPC error:', error);
+
+        // Return sanitized error to client
+        return {
+            ...shape,
+            message: 'Internal server error',
+            data: {
+                code: 'INTERNAL_SERVER_ERROR',
+                httpStatus: 500,
+            },
+        };
+    },
+});
 export const appRouter = t.router({
     ping: t.procedure.mutation(() => {
         return 'pong';
