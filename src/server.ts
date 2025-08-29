@@ -18,6 +18,7 @@ import { usersTable } from './schema';
 
 const server = fastify({
     maxParamLength: 5000,
+    logger: false,
 });
 
 const COOKIE_NAME_AUTH = 'token';
@@ -32,6 +33,17 @@ await server.register(fastifyJwt, {
 
 await server.register(fastifyCookie);
 await server.register(fastifyFormBody);
+
+server.addHook('onRequest', async (request) => {
+    if (
+        request.url.startsWith('/trpc') ||
+        request.url === '/login' ||
+        request.url === '/logout' ||
+        request.url.endsWith('.html')
+    ) {
+        console.log(`${request.method} ${request.url}`);
+    }
+});
 
 const rootPath = resolve(import.meta.dirname, '..');
 const distDir = resolve(import.meta.dirname, '..', 'dist');
@@ -116,8 +128,8 @@ server.get('/*', (_req, reply) => {
 try {
     await server.vite.ready();
     await server.listen({ port: 3000, host: '0.0.0.0' });
+    console.log('Server started on http://localhost:3000');
 } catch (err) {
     console.error(err);
-    server.log.error(err);
     process.exit(1);
 }
