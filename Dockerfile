@@ -8,7 +8,6 @@ RUN bun install --frozen-lockfile
 # Copy source code
 COPY src src
 COPY public public
-COPY favicon.ico favicon.ico
 COPY tsconfig.json tsconfig.json
 COPY vite.config.ts vite.config.ts
 
