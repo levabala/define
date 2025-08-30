@@ -14,10 +14,29 @@ export function App() {
         trpc.ping.mutate();
     }, []);
 
+    useEffect(() => {
+        const setVH = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+
+        setVH();
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', setVH);
+
+        return () => {
+            window.removeEventListener('resize', setVH);
+            window.removeEventListener('orientationchange', setVH);
+        };
+    }, []);
+
     return (
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <BrowserRouter>
-                <main className="h-[100vh] pl-[calc(0.5rem+env(safe-area-inset-left))] pr-[calc(0.5rem+env(safe-area-inset-right))] pt-[calc(0.5rem+env(safe-area-inset-top))] pb-[calc(0.5rem+env(safe-area-inset-bottom))]">
+                <main
+                    className="p-2 h-[100dvh]"
+                    style={{ height: 'calc(var(--vh, 1vh) * 100)' }}
+                >
                     <Routes>
                         <Route index element={<Main />} />
                         <Route path="login" element={<Login />} />
