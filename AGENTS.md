@@ -23,11 +23,9 @@
 
 When the user asks to "deploy":
 
-1. **Commit changes**: `git commit -m "message"`
-2. **Version bump**: `npm version patch` (creates git tag automatically)
-3. **Push with tags**: `git push --follow-tags`
-
-Execute these commands **sequentially** - wait for each to complete before running the next.
+1. Check what will be committed: `git status && git diff`
+2. Selectively add relevant files (avoid adding unrelated changes)
+3. Execute: `git commit -m "message" && npm version patch && git push --follow-tags`
 
 ## Key Dependencies
 
