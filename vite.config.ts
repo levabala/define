@@ -18,6 +18,9 @@ export default defineConfig({
         viteFastify({ spa: true, useRelativePaths: true }),
         VitePWA({
             registerType: 'autoUpdate',
+            workbox: {
+                globPatterns: ['**/*.{js,css,ico,png,svg}'],
+            },
             devOptions: {
                 enabled: true,
             },
