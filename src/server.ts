@@ -2,6 +2,7 @@ import { COOKIE_NAME_USERNAME } from '@/consts';
 import fastifyCookie from '@fastify/cookie';
 import fastifyFormBody from '@fastify/formbody';
 import fastifyJwt from '@fastify/jwt';
+import fastifyStatic from '@fastify/static';
 import fastifyVite from '@fastify/vite';
 import {
     fastifyTRPCPlugin,
@@ -59,6 +60,13 @@ server.addHook('onRequest', async (request) => {
 
 const rootPath = resolve(import.meta.dirname, '..');
 const distDir = resolve(import.meta.dirname, '..', 'dist');
+const publicDir = resolve(import.meta.dirname, '..', 'public');
+
+// Register static file serving for public directory
+await server.register(fastifyStatic, {
+    root: publicDir,
+    prefix: '/',
+});
 
 await server.register(fastifyVite, {
     root: rootPath, // where to look for vite.config.js
@@ -133,8 +141,12 @@ server.register(fastifyTRPCPlugin, {
     } satisfies FastifyTRPCPluginOptions<AppRouter>['trpcOptions'],
 });
 
-server.get('/*', (_req, reply) => {
-    return reply.html();
+// Only handle non-static routes
+const spaRoutes = ['/', '/login', '/logout'];
+spaRoutes.forEach((route) => {
+    server.get(route, (_req, reply) => {
+        return reply.html();
+    });
 });
 
 try {

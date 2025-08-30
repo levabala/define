@@ -39,6 +39,14 @@ export default defineConfig({
                         type: 'image/png',
                     },
                 ],
+                screenshots: [
+                    {
+                        src: '/screenshot-mobile.png',
+                        sizes: '414x896',
+                        type: 'image/png',
+                        label: 'Define app on mobile',
+                    },
+                ],
             },
             includeAssets: [
                 'favicon.ico',
@@ -47,6 +55,7 @@ export default defineConfig({
             ],
             workbox: {
                 globPatterns: ['**/*.{js,css,ico,png,svg}'],
+                navigateFallbackDenylist: [/^\/index\.html$/],
             },
             devOptions: {
                 enabled: true,
