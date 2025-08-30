@@ -1,4 +1,5 @@
 import { Button } from '@/client/components/ui/button';
+import { trpc } from '@/client/trpc/client';
 import { COOKIE_NAME_USERNAME } from '@/consts';
 import { WordType } from '@/schema';
 import { atom, useAtom, useSetAtom } from 'jotai';
@@ -6,7 +7,6 @@ import Cookies from 'js-cookie';
 import { FormEvent, useEffect } from 'react';
 import { omit } from 'remeda';
 import { processWord } from '../../../helpers';
-import { trpc } from '@/client/trpc/client';
 
 const usernameAtom = atom(Cookies.get(COOKIE_NAME_USERNAME) || '');
 const wordsAtom = atom<Record<string, WordType>>({});
