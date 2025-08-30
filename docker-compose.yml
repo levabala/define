@@ -3,6 +3,10 @@ services:
         image: ghcr.io/levabala/define:latest
         container_name: define
         restart: unless-stopped
+        deploy:
+            restart_policy:
+                condition: unless-stopped
+                max_attempts: 10
         environment:
             - DB_FILE_NAME=${DB_FILE_NAME}
             - JWT_SECRET=${JWT_SECRET}
