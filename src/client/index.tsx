@@ -17,7 +17,7 @@ export function App() {
     return (
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <BrowserRouter>
-                <main className="p-2 h-[100dvh]">
+                <main className="h-[100vh] pl-[calc(0.5rem+env(safe-area-inset-left))] pr-[calc(0.5rem+env(safe-area-inset-right))] pt-[calc(0.5rem+env(safe-area-inset-top))] pb-[calc(0.5rem+env(safe-area-inset-bottom))]">
                     <Routes>
                         <Route index element={<Main />} />
                         <Route path="login" element={<Login />} />
