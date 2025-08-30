@@ -23,7 +23,7 @@
 
 When the user asks to "deploy":
 
-1. Check what will be committed: `git status && git diff`
+1. Check what will be committed: `git status && git diff --no-ext-diff`
 2. Selectively add relevant files (avoid adding unrelated changes)
 3. Execute: `git commit -m "message" && npm version patch && git push --follow-tags`
 
