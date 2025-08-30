@@ -36,8 +36,7 @@ await server.register(fastifyFormBody);
 
 // Global error handler to sanitize all thrown errors
 server.setErrorHandler(function (error, request, reply) {
-    // Log the full error server-side for debugging
-    request.log.error(error, `Error in ${request.method} ${request.url}`);
+    console.error(error, `Error in ${request.method} ${request.url}`);
 
     // Always return 500 Internal Server Error for any thrown error
     reply.code(500).send({
