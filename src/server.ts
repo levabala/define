@@ -66,7 +66,7 @@ const publicDir = resolve(import.meta.dirname, '..', 'public');
 await server.register(fastifyStatic, {
     root: publicDir,
     prefix: '/',
-    globIgnore: ['**/node_modules/**'],
+    wildcard: false,
 });
 
 await server.register(fastifyVite, {
@@ -143,7 +143,7 @@ server.register(fastifyTRPCPlugin, {
 });
 
 // Only handle non-static routes
-const spaRoutes = ['/', '/login', '/logout'];
+const spaRoutes = ['/', '/index.html', '/login', '/logout'];
 spaRoutes.forEach((route) => {
     server.get(route, (_req, reply) => {
         return reply.html();
