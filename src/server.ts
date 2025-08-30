@@ -142,7 +142,7 @@ server.register(fastifyTRPCPlugin, {
 });
 
 // Only handle non-static routes
-const spaRoutes = ['/', '/index.html', '/login', '/logout'];
+const spaRoutes = ['/', '/login', '/logout'];
 spaRoutes.forEach((route) => {
     server.get(route, (_req, reply) => {
         return reply.html();
