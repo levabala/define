@@ -57,7 +57,16 @@ export default defineConfig({
             ],
             workbox: {
                 globPatterns: ['**/*.{js,css,ico,png,svg}'],
+                navigateFallback: '/',
                 navigateFallbackDenylist: [/^\/index\.html$/],
+                manifestTransforms: [
+                    (manifestEntries) => {
+                        const manifest = manifestEntries.filter(
+                            entry => entry.url !== 'index.html'
+                        );
+                        return { manifest };
+                    }
+                ],
             },
             devOptions: {
                 enabled: true,

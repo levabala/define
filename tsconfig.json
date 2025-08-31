@@ -16,8 +16,8 @@
         "paths": {
             "@/*": ["./src/*"]
         },
-
         "outDir": "dist"
     },
-    "include": ["node_modules/vite/client.d.ts", "src/**/*"]
+    "include": ["node_modules/vite/client.d.ts", "src/**/*"],
+    "exclude": ["node_modules", "src/client/dev-dist"]
 }
