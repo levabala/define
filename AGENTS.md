@@ -36,6 +36,7 @@ When the user just says "commit":
 1. Check what will be committed: `git status && git diff --no-ext-diff`
 2. Selectively add relevant files (avoid adding unrelated changes)
 3. Execute: `git commit -m "message" && git push`
+4. Verify git directory is clean: `git status` (to ensure nothing was forgotten)
 
 the commands in 1. and 3. must be executed sequentially via &&
 
