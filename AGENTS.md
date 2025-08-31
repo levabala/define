@@ -29,6 +29,16 @@ When the user asks to "deploy":
 
 the commands in 1. and 3. must be executed sequentially via &&
 
+## Commit Process
+
+When the user just says "commit":
+
+1. Check what will be committed: `git status && git diff --no-ext-diff`
+2. Selectively add relevant files (avoid adding unrelated changes)
+3. Execute: `git commit -m "message" && git push`
+
+the commands in 1. and 3. must be executed sequentially via &&
+
 ## Key Dependencies
 
 - React 19, TypeScript, Vite, Tailwind CSS, Drizzle ORM, tRPC, Jotai, Fastify, Bun runtime

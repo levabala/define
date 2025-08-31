@@ -1,86 +1,15 @@
 import { Button } from '@/client/components/ui/button';
-import { trpc } from '@/client/trpc/client';
-import { COOKIE_NAME_USERNAME } from '@/consts';
-import { WordType } from '@/schema';
-import { atom, useAtom, useSetAtom } from 'jotai';
-import Cookies from 'js-cookie';
+import { Input } from '@/client/components/ui/input';
+import { usernameAtom } from '@/client/stores/user';
+import {
+    addWordAtom,
+    fetchWordsAtom,
+    removeWordAtom,
+    sortedWordsAtom,
+    wordsAtom,
+} from '@/client/stores/words';
+import { useAtom, useSetAtom } from 'jotai';
 import { FormEvent, useEffect } from 'react';
-import { omit } from 'remeda';
-import { processWord } from '../../../helpers';
-
-const usernameAtom = atom(Cookies.get(COOKIE_NAME_USERNAME) || '');
-const wordsAtom = atom<Record<string, WordType>>({});
-
-const fetchWordsAtom = atom(null, async (get, set) => {
-    const username = get(usernameAtom);
-    console.log({ username });
-    if (!username) return;
-
-    const res = await trpc.getWordsAll.query({
-        username: username,
-    });
-    console.log({ res });
-
-    const wordsMap = res.reduce(
-        (acc, word) => {
-            acc[word.value] = word;
-            return acc;
-        },
-        {} as Record<string, WordType>,
-    );
-
-    set(wordsAtom, wordsMap);
-});
-
-const addWordAtom = atom(
-    null,
-    (
-        get,
-        set,
-        word: Omit<
-            WordType,
-            'username' | 'isDeleted' | 'createdAt' | 'updatedAt'
-        >,
-    ) => {
-        const username = get(usernameAtom);
-
-        const newWord = {
-            value: processWord(word.value),
-            username: username,
-            isDeleted: 0,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-        };
-
-        set(wordsAtom, (prev) => ({
-            ...prev,
-            [word.value]: newWord,
-        }));
-
-        trpc.addWord.mutate({
-            username: username,
-            word: word.value,
-        });
-    },
-);
-
-const removeWordAtom = atom(null, (get, set, wordValue: string) => {
-    const username = get(usernameAtom);
-
-    set(wordsAtom, (prev) => omit(prev, [wordValue]));
-
-    trpc.deleteWord.mutate({
-        username: username,
-        word: wordValue,
-    });
-});
-
-const sortedWordsAtom = atom((get) => {
-    const words = get(wordsAtom);
-    return Object.values(words).sort((a, b) =>
-        a.createdAt > b.createdAt ? 1 : -1,
-    );
-});
 
 export function Main() {
     const [username] = useAtom(usernameAtom);
@@ -149,13 +78,13 @@ export function Main() {
                     e.currentTarget.reset();
                 }}
             >
-                <input
-                    name="word"
-                    type="text"
-                    placeholder="add a word"
-                    className="border-solid border-1 border-gray-200 p-1 w-full"
-                />
-                <Button type="submit" variant="default" size="sm">
+                <Input name="word" type="text" placeholder="add a word" />
+                <Button
+                    type="submit"
+                    variant="default"
+                    size="sm"
+                    className="h-full"
+                >
                     add
                 </Button>
             </form>

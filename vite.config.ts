@@ -62,10 +62,10 @@ export default defineConfig({
                 manifestTransforms: [
                     (manifestEntries) => {
                         const manifest = manifestEntries.filter(
-                            entry => entry.url !== 'index.html'
+                            (entry) => entry.url !== 'index.html',
                         );
                         return { manifest };
-                    }
+                    },
                 ],
             },
             devOptions: {
