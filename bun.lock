@@ -3,6 +3,8 @@
   "workspaces": {
     "": {
       "dependencies": {
+        "@datadog/browser-rum": "^6.18.1",
+        "@datadog/browser-rum-react": "^6.18.1",
         "@eslint/js": "^9.33.0",
         "@fastify/cookie": "^11.0.2",
         "@fastify/formbody": "^8.0.2",
@@ -244,6 +246,14 @@
     "@babel/traverse": ["@babel/traverse@7.28.3", "", { "dependencies": { "@babel/code-frame": "^7.27.1", "@babel/generator": "^7.28.3", "@babel/helper-globals": "^7.28.0", "@babel/parser": "^7.28.3", "@babel/template": "^7.27.2", "@babel/types": "^7.28.2", "debug": "^4.3.1" } }, "sha512-7w4kZYHneL3A6NP2nxzHvT3HCZ7puDZZjFMqDpBPECub79sTtSO5CGXDkKrTQq8ksAwfD/XI2MRFX23njdDaIQ=="],
 
     "@babel/types": ["@babel/types@7.28.2", "", { "dependencies": { "@babel/helper-string-parser": "^7.27.1", "@babel/helper-validator-identifier": "^7.27.1" } }, "sha512-ruv7Ae4J5dUYULmeXw1gmb7rYRz57OWCPM57pHojnLq/3Z1CK2lNSLTCVjxVk1F/TZHwOZZrOWi0ur95BbLxNQ=="],
+
+    "@datadog/browser-core": ["@datadog/browser-core@6.18.1", "", {}, "sha512-1JzFXU6E1cs4n0+avg9JLtlXVwN4J1r8x6CwXcNdC/JXRB2AB3Q5sG03CGni7yHm0yG8KjGVOpKvSl5pCypVfg=="],
+
+    "@datadog/browser-rum": ["@datadog/browser-rum@6.18.1", "", { "dependencies": { "@datadog/browser-core": "6.18.1", "@datadog/browser-rum-core": "6.18.1" }, "peerDependencies": { "@datadog/browser-logs": "6.18.1" }, "optionalPeers": ["@datadog/browser-logs"] }, "sha512-1DUYO11AL4QjDZAOq+QDH0TeMbwB2/G0MiYxvn1Ljpogsnr7Yz0fr23EBsa52pL6JmiiYIm67l9XK82ED8mu7A=="],
+
+    "@datadog/browser-rum-core": ["@datadog/browser-rum-core@6.18.1", "", { "dependencies": { "@datadog/browser-core": "6.18.1" } }, "sha512-pJgH+kZB+taDTuRZmlLbjYmetzu0lWWcYk50JfoeVj6ChdMtPe9SdW6SUoS61+vPMsV8xYUP/YUZE2L48hWpaw=="],
+
+    "@datadog/browser-rum-react": ["@datadog/browser-rum-react@6.18.1", "", { "dependencies": { "@datadog/browser-core": "6.18.1", "@datadog/browser-rum-core": "6.18.1" }, "peerDependencies": { "react": "18 || 19", "react-router": "7", "react-router-dom": "6 || 7" }, "optionalPeers": ["react", "react-router", "react-router-dom"] }, "sha512-02uI1agqwVlPXy88IjoshR6xalgIwa6KsD82An2UzQNyJ9d/sXhB5Wqvj/NRESgp3bOoi1HjKEPISKvdYAIRxA=="],
 
     "@drizzle-team/brocli": ["@drizzle-team/brocli@0.10.2", "", {}, "sha512-z33Il7l5dKjUgGULTqBsQBQwckHh5AbIuxhdsIxDDiZAzBOrZO6q9ogcWC65kU382AfynTfgNumVcNIjuIua6w=="],
 

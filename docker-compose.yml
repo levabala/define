@@ -11,6 +11,8 @@ services:
             - DB_FILE_NAME=${DB_FILE_NAME}
             - JWT_SECRET=${JWT_SECRET}
             - DB_ROOT_DIR=/app/data
+            - VITE_DATADOG_APPLICATION_ID=${VITE_DATADOG_APPLICATION_ID}
+            - VITE_DATADOG_CLIENT_TOKEN=${VITE_DATADOG_CLIENT_TOKEN}
         volumes:
             - define-data:/app/data
         networks:

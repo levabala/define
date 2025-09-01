@@ -11,6 +11,12 @@ COPY public public
 COPY tsconfig.json tsconfig.json
 COPY vite.config.ts vite.config.ts
 
+# Set build arguments and environment variables for Datadog
+ARG VITE_DATADOG_APPLICATION_ID
+ARG VITE_DATADOG_CLIENT_TOKEN
+ENV VITE_DATADOG_APPLICATION_ID=$VITE_DATADOG_APPLICATION_ID
+ENV VITE_DATADOG_CLIENT_TOKEN=$VITE_DATADOG_CLIENT_TOKEN
+
 # Build the application
 RUN bun run build
 

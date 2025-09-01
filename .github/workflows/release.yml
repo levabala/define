@@ -124,6 +124,8 @@ jobs:
                       # Set environment variables for docker-compose
                       export DB_FILE_NAME="${{ vars.DB_FILE_NAME }}"
                       export JWT_SECRET="${{ secrets.JWT_SECRET }}"
+                      export VITE_DATADOG_APPLICATION_ID="${{ secrets.VITE_DATADOG_APPLICATION_ID }}"
+                      export VITE_DATADOG_CLIENT_TOKEN="${{ secrets.VITE_DATADOG_CLIENT_TOKEN }}"
 
                        # Stop and restart the services
                        echo "Restarting services with docker-compose..."

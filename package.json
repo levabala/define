@@ -10,6 +10,8 @@
         "tsc": "tsc --noEmit -p tsconfig.json"
     },
     "dependencies": {
+        "@datadog/browser-rum": "^6.18.1",
+        "@datadog/browser-rum-react": "^6.18.1",
         "@eslint/js": "^9.33.0",
         "@fastify/cookie": "^11.0.2",
         "@fastify/formbody": "^8.0.2",
