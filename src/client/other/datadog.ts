@@ -13,5 +13,6 @@ datadogRum.init({
     sessionSampleRate: 100,
     sessionReplaySampleRate: 20,
     defaultPrivacyLevel: 'mask-user-input',
+    trackUserInteractions: true,
     plugins: [reactPlugin({ router: true })],
 });
