@@ -3,6 +3,8 @@ import { Input } from '@/client/components/ui/input';
 import { usernameAtom } from '@/client/stores/user';
 import {
     addWordAtom,
+    currentWordAtom,
+    currentWordValueAtom,
     fetchWordsAtom,
     removeWordAtom,
     sortedWordsAtom,
@@ -14,6 +16,9 @@ import { FormEvent, useEffect } from 'react';
 export function Main() {
     const [username] = useAtom(usernameAtom);
     const [words] = useAtom(wordsAtom);
+    const [wordCurrent] = useAtom(currentWordAtom);
+    const [_wordCurrentValue, setWordCurrentValue] =
+        useAtom(currentWordValueAtom);
     const sortedWords = useAtom(sortedWordsAtom)[0];
 
     const fetchWords = useSetAtom(fetchWordsAtom);
@@ -38,7 +43,11 @@ export function Main() {
                 </form>
             </div>
             <hr className="my-2" />
-            <div className="grow overflow-auto">
+            <div className="flex grow flex-row gap-2">
+                {wordCurrent ? wordCurrent.value : 'null'}
+            </div>
+            <hr className="my-2" />
+            <div className="h-40 overflow-auto">
                 <div className="flex flex-col gap-2">
                     {sortedWords.map((word) => (
                         <div key={word.value} className="flex flex-row gap-2">
@@ -51,6 +60,16 @@ export function Main() {
                                 }}
                             >
                                 delete
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="secondary"
+                                size="sm"
+                                onClick={() => {
+                                    setWordCurrentValue(word.value);
+                                }}
+                            >
+                                select
                             </Button>
                             <div className="grow">{word.value}</div>
                         </div>

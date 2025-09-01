@@ -1,11 +1,17 @@
 import { processWord } from '@/helpers';
 import { WordType } from '@/schema';
 import { atom } from 'jotai';
+import { atomWithSearchParams } from 'jotai-location';
 import { omit } from 'remeda';
 import { trpc } from '../trpc/client';
 import { usernameAtom } from './user';
 
 export const wordsAtom = atom<Record<string, WordType>>({});
+export const currentWordValueAtom = atomWithSearchParams('current', '');
+
+export const currentWordAtom = atom<WordType | null>(
+    (get) => get(wordsAtom)[get(currentWordValueAtom)] || null,
+);
 
 export const fetchWordsAtom = atom(null, async (get, set) => {
     const username = get(usernameAtom);

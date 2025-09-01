@@ -34,7 +34,7 @@ export function App() {
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
             <BrowserRouter>
                 <main
-                    className="p-2 h-[100dvh]"
+                    className="h-[100dvh] p-2"
                     style={{ height: 'calc(var(--vh, 1vh) * 100)' }}
                 >
                     <Routes>
