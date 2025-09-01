@@ -14,6 +14,11 @@ COPY vite.config.ts vite.config.ts
 # Set build arguments and environment variables for Datadog
 ARG VITE_DATADOG_APPLICATION_ID
 ARG VITE_DATADOG_CLIENT_TOKEN
+
+# Validate required Datadog environment variables
+RUN test -n "$VITE_DATADOG_APPLICATION_ID" || (echo "ERROR: VITE_DATADOG_APPLICATION_ID build argument is required" && exit 1)
+RUN test -n "$VITE_DATADOG_CLIENT_TOKEN" || (echo "ERROR: VITE_DATADOG_CLIENT_TOKEN build argument is required" && exit 1)
+
 ENV VITE_DATADOG_APPLICATION_ID=$VITE_DATADOG_APPLICATION_ID
 ENV VITE_DATADOG_CLIENT_TOKEN=$VITE_DATADOG_CLIENT_TOKEN
 
