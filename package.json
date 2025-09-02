@@ -26,6 +26,7 @@
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "cors": "^2.8.5",
+        "dd-trace": "^5.64.0",
         "dotenv": "^17.2.1",
         "drizzle-orm": "^0.44.4",
         "fastify": "^5.5.0",

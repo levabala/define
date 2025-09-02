@@ -1,3 +1,5 @@
+import 'dd-trace/init';
+
 import { COOKIE_NAME_USERNAME } from '@/consts';
 import fastifyCookie from '@fastify/cookie';
 import fastifyFormBody from '@fastify/formbody';
